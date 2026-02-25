@@ -9,6 +9,7 @@ provider "aws" {
     tags = {
       Environment = var.environment
       ManagedBy   = "Terraform"
+      Project     = "EKS-Demo"
     }
   }
 }

@@ -27,33 +27,51 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "subnet_id" {
-  description = "ID of your existing subnet"
-  type        = string
-}
-
-# -----------------------------------------
-# EC2 Configuration
-# -----------------------------------------
-
-variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t3.micro"
-}
-
-variable "instance_name" {
-  description = "Name tag for the EC2 instance"
-  type        = string
-  default     = "simple-ec2"
-}
-
-# -----------------------------------------
-# Security
-# -----------------------------------------
-
-variable "allowed_ssh_cidrs" {
-  description = "CIDR blocks allowed for SSH access"
+variable "subnet_ids" {
+  description = "List of subnet IDs for EKS (minimum 2 subnets in different AZs)"
   type        = list(string)
-  default     = ["0.0.0.0/0"]  # Restrict in production!
+}
+
+# -----------------------------------------
+# EKS Configuration
+# -----------------------------------------
+
+variable "cluster_name" {
+  description = "Name of the EKS cluster"
+  type        = string
+  default     = "my-eks-cluster"
+}
+
+variable "kubernetes_version" {
+  description = "Kubernetes version"
+  type        = string
+  default     = "1.29"
+}
+
+# -----------------------------------------
+# Node Group Configuration
+# -----------------------------------------
+
+variable "node_instance_types" {
+  description = "EC2 instance types for worker nodes"
+  type        = list(string)
+  default     = ["t3.medium"]
+}
+
+variable "node_desired_size" {
+  description = "Desired number of worker nodes"
+  type        = number
+  default     = 2
+}
+
+variable "node_min_size" {
+  description = "Minimum number of worker nodes"
+  type        = number
+  default     = 1
+}
+
+variable "node_max_size" {
+  description = "Maximum number of worker nodes"
+  type        = number
+  default     = 3
 }

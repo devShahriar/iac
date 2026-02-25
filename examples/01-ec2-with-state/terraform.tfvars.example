@@ -1,53 +1,27 @@
 # ===========================================
-# Terraform Variables File
+# Terraform Variables
 # ===========================================
-# Copy this file to terraform.tfvars and
-# customize the values for your environment.
-#
-# Usage:
+# Copy this file to terraform.tfvars:
 #   cp terraform.tfvars.example terraform.tfvars
-#   # Edit terraform.tfvars with your values
-#   terraform plan
+#
+# Then fill in your values.
 # ===========================================
 
-# -----------------------------------------
-# General Configuration
-# -----------------------------------------
+# AWS Region
+aws_region  = "us-east-1"
+environment = "dev"
 
-aws_region   = "us-east-1"
-environment  = "dev"
-project_name = "terraform-demo"
-owner        = "Your Name"
+# Your existing VPC and Subnet IDs (REQUIRED)
+# Find these with:
+#   aws ec2 describe-vpcs --query 'Vpcs[*].[VpcId,Tags[?Key==`Name`].Value|[0]]' --output table
+#   aws ec2 describe-subnets --query 'Subnets[*].[SubnetId,VpcId]' --output table
+vpc_id    = "vpc-xxxxxxxxx"
+subnet_id = "subnet-xxxxxxxxx"
 
-# -----------------------------------------
-# Network Configuration
-# -----------------------------------------
-
-vpc_cidr           = "10.0.0.0/16"
-public_subnet_cidr = "10.0.1.0/24"
-
-# -----------------------------------------
 # EC2 Configuration
-# -----------------------------------------
+instance_type = "t3.micro"
+instance_name = "my-ec2-instance"
 
-instance_type    = "t3.micro"
-instance_name    = "web-server"
-instance_count   = 1
-enable_public_ip = true
-
-# -----------------------------------------
-# Security Configuration
-# -----------------------------------------
-
-# IMPORTANT: In production, restrict SSH access!
-# Example: ["203.0.113.0/24", "198.51.100.0/24"]
+# Security - Restrict SSH in production!
+# Example: ["203.0.113.0/32"] for single IP
 allowed_ssh_cidrs = ["0.0.0.0/0"]
-
-# -----------------------------------------
-# Additional Tags
-# -----------------------------------------
-
-extra_tags = {
-  CostCenter = "training"
-  Team       = "devops"
-}
